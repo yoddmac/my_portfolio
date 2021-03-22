@@ -1,6 +1,5 @@
-import logo from './logo.svg';
 import './App.css';
-import React from 'react';
+import React, {useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Card from '@material-ui/core/Card';
@@ -9,9 +8,8 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import GitHubIcon from '@material-ui/icons/GitHub';
 import LinkedInIcon from '@material-ui/icons/LinkedIn';
-import PortraitIcon from '@material-ui/icons/Portrait';
-import ContactsIcon from '@material-ui/icons/Contacts';
 import SendIcon from '@material-ui/icons/Send';
+import Modal from "./Modal.js";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -41,13 +39,16 @@ function NewlineText(props) {
   return text.split('\n').map(str => <p>{str}</p>);
 }
 
-const dialogue = "Bonjour je m\'appelle Théo.\nJe suis un étuidant Epitech Nancy en seconde année a nancy.\nje vous souhaite la bienvenue sur mon portfolio, je vous laisse vous baladez si dessous vous pouvez trouver 3 categorie:"
+const dialogue = "Bonjour je m'appelle Théo.\nJe suis un étuidant Epitech Nancy en seconde année a nancy.\nje vous souhaite la bienvenue sur mon portfolio, je vous laisse vous baladez si dessous vous pouvez trouver 3 categorie:"
 const contact = "Contact: vous pouvez me contacter pour faire un devis, me posez des questions"
 const projet = "Projet: Une vitrine pour vous presentez mes projets perso ou mes projets que j'ai pu réaliser à l'école"
 const reseaux = "Reseaux: Pour pouvoir me suivre sur linkdin, Github partager mon profile ou juste le visité"
 
 function App() {
   const classes = useStyles();
+  const [display, setDisplay] = useState(false);
+
+
   return (
     <div className="App">
     <Card ClassName={classes.title}>
@@ -83,18 +84,16 @@ function App() {
         color="secondary"
         className={classes.button}
         startIcon={<SendIcon />}
-      ></Button>
+        onClick={() => setDisplay(true)}
+      >
+      </Button>
+      {display &&
+      <Modal displaySetter={setDisplay}/>}
         </Paper>
       </CardContent>
     </Card>
     </div>
   );
 }
-{/* <NewlineText text={dialogue}/>
-<NewlineText className={classes.categorie} text = {projet}/>
-<br></br>
-<NewlineText className={classes.categorie} text = {contact}/>
-<br></br>
-<NewlineText className={classes.categorie} text = {reseaux}/> */}
 
 export default App;
