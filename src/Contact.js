@@ -1,79 +1,85 @@
-import React from 'react';
+import React from "react";
 import { useForm } from "react-hook-form";
-import{ init } from 'emailjs-com';
+import { init } from "emailjs-com";
 init("user_7y8t2b9AEiciANFsya4dE");
 
 const Contact = () => {
-    const { register, handleSubmit, errors } = useForm();
-    //const onSubmit = values => console.log(values);
+  const { register, handleSubmit, errors } = useForm();
+  //const onSubmit = values => console.log(values);
 
-    const onSubmit = (data, r) => {
-        alert(`Thank you for your message from ${data.email}`);
-        const templateId = 'template_6mq1xxq';
-        const serviceID = 'service_6nb9icw';
-        sendFeedback(serviceID, templateId, { from_name: data.name, message_html: data.comment, reply_to: data.email })
-        r.target.reset();
-    };
+  const onSubmit = (data, r) => {
+    alert(`Thank you for your message from ${data.email}`);
+    const templateId = "template_6mq1xxq";
+    const serviceID = "service_6nb9icw";
+    sendFeedback(serviceID, templateId, {
+      from_name: data.name,
+      message_html: data.comment,
+      reply_to: data.email,
+    });
+    r.target.reset();
+  };
 
+  const sendFeedback = (serviceID, templateId, variables) => {
+    window.emailjs
+      .send(serviceID, templateId, variables)
+      .then((res) => {
+        console.log("Email successfully sent!");
+      })
+      .catch((err) =>
+        console.error(
+          "There has been an error.  Here some thoughts on the error that occured:",
+          err
+        )
+      );
+  };
 
-    const sendFeedback = (serviceID, templateId, variables) => {
-        window.emailjs.send(
-            serviceID, templateId,
-            variables
-        ).then(res => {
-            console.log('Email successfully sent!')
-        })
-            .catch(err => console.error('There has been an error.  Here some thoughts on the error that occured:', err))
-    };
+  return (
+    <div className="ContactForm">
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <input
+          placeholder="name"
+          name="name"
+          ref={register({
+            required: "Please enter your name",
+            maxLength: {
+              value: 20,
+              message: "Please enter a name with fewer than 20 characters",
+            },
+          })}
+        />
+        <br />
+        {errors.name && errors.name.message}
+        <br />
 
-    return (
-        <div className="ContactForm">
-            <form onSubmit={handleSubmit(onSubmit)}>
-                <input 
-                    placeholder="name"
-                    name="name" 
-                    ref={
-                        register({ 
-                            required: "Please enter your name", 
-                            maxLength: {
-                                value: 20,
-                                message: "Please enter a name with fewer than 20 characters"
-                            } 
-                        })
-                    } 
-                /><br />
-                {errors.name && errors.name.message}<br />
+        <input
+          placeholder="email"
+          name="email"
+          ref={register({
+            required: "Please enter an email",
+            pattern: {
+              value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+              message: "invalid email address",
+            },
+          })}
+        />
+        <br />
+        {errors.email && errors.email.message}
+        <br />
 
-                <input
-                    placeholder="email"
-                    name="email"
-                    ref={
-                        register({
-                            required: "Please enter an email",
-                            pattern: {
-                                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                                message: "invalid email address"
-                            }
-                        })
-                    }
-                /><br/>
-                {errors.email && errors.email.message}<br />
-
-                <textarea 
-                    placeholder="comment"
-                    name="comment" 
-                    ref={
-                        register({
-                            required: true
-                        })
-                    } 
-                /><br />
-                {errors.message && "oops, you forgot your message!"}<br />
-                <input type="submit" 
-                    />
-            </form>
-        </div>
-    );
-}
+        <textarea
+          placeholder="comment"
+          name="comment"
+          ref={register({
+            required: true,
+          })}
+        />
+        <br />
+        {errors.message && "oops, you forgot your message!"}
+        <br />
+        <input type="submit" />
+      </form>
+    </div>
+  );
+};
 
 export default Contact;
