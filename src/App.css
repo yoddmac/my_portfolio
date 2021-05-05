@@ -8,14 +8,6 @@ body {
   color: yellow;
 }
 
-.buttonGithub {
-  margin: 0;
-  position: absolute;
-  top: 50%;
-  -ms-transform: translateY(-50%);
-  transform: translateY(-50%);
-}
-
 .light-theme {
   background-color: #fff;
   color: #444444;
@@ -76,6 +68,14 @@ nav {
 
 .App-link {
   color: #61dafb;
+}
+
+.card {
+  padding: 70px;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  gap: 200px;
 }
 
 @keyframes App-logo-spin {

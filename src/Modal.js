@@ -1,5 +1,5 @@
 import React from "react";
-import Contact from "./Contact.js";
+import Contact from "./Page1/Contact.js";
 const Modal = (props) => {
   return (
     <div>
